@@ -1,12 +1,73 @@
-<p-table [value]="Accounts">
-    <ng-template pTemplate="header">
+<div class="mainContainer">
+  <p-toast position="bottom-left"></p-toast>
+  <div class="accountTableContainer">
+    <p-table [value]="Accounts">
+      <ng-template pTemplate="caption">
+        <span class="tableCaption">
+          Accounts ({{Accounts?.length}})
+        </span>
+      </ng-template>
+      <ng-template pTemplate="header">
         <tr>
-            <th>IBAN</th>
+          <th>IBAN</th>
+          <th>Type</th>
+          <th>Code</th>
+          <th>Balance</th>
+          <th>Start Date</th>
+          <th>Expiry Date</th>
+          <th class="buttonContainer"></th>
+          <th class="buttonContainer"></th>
         </tr>
-    </ng-template>
-    <ng-template pTemplate="body" let-account>
+      </ng-template>
+      <ng-template pTemplate="body" let-account>
         <tr>
-            <td>{{account.IBAN}}</td>
+          <td>{{account.iban}}</td>
+          <td>{{account.type.type}}</td>
+          <td>{{account.currency.code}}</td>
+          <td>{{account.accountBalance}}</td>
+          <td>{{account.startDate}}</td>
+          <td>{{account.expiryDate}}</td>
+          <td class="buttonContainer">
+            <i class="transferToBalanceIcon fa fa-money" title="Transfer from this account"> </i>
+          </td>
+          <td class="buttonContainer">
+            <i class="deleteIcon fa fa-trash" title="Delete account" (click)="deleteAccount(account)"> </i>
+          </td>
         </tr>
-    </ng-template>
-</p-table>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        <a class="addNewAccount" (click)="openAddNewAccountDialog()">Add new account</a>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<p-dialog header="Add new account" [(visible)]="displayAddNewAcc" [modal]="true" [closable]="false"
+  [style]="{width: '600px', minWidth: '200px'}" [contentStyle]="{'overflow':'visible'}" [positionTop]="20" [minY]="100"
+  [baseZIndex]="10000">
+  <div>
+    <div class="ui-g ui-fluid form-group">
+      <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
+        <label>Account balance</label>
+        <input class="balanceInput" type="text" pKeyFilter="pnum" [(ngModel)]="balance">
+      </div>
+      <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
+        <label>Account type</label>
+        <p-dropdown [options]="accountTypes" [(ngModel)]="selectedAccType" optionLabel="type">
+        </p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
+        <label>Currency</label>
+        <p-dropdown [options]="currencies" [(ngModel)]="selectedCurrency" optionLabel="code">
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="fa fa-check" (click)="addNewAccount()" label="Save"
+      class="ui-button-success"></button>
+
+    <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeAddNewAccDialog()" label="Cancel"
+      class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>

@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">Accounts</a>
-  <div class="vl"></div> 
-  <a class="navbar-brand" href="#">Deactivated accounts</a>
-  <div class="vl"></div> 
-  <a class="navbar-brand" href="#">Exchange rates</a>
+  <a class="navbar-brand" (click)="routeAccounts()">Accounts</a>
+  <div class="vl"></div>
+  <a class="navbar-brand" (click)="routeDeactivatedAccounts()">Deactivated accounts</a>
+  <div class="vl"></div>
+  <a class="navbar-brand" (click)="routeDeactivatedAccounts()">Exchange rates</a>
 </nav>
 
 <router-outlet></router-outlet>

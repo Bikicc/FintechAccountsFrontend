@@ -1,0 +1,43 @@
+.tableCaption {
+  font-size: large;
+}
+
+tr {
+  text-align: center;
+}
+
+.buttonContainer {
+  width: 2%;
+  border: none;
+}
+
+.transferToBalanceIcon {
+  color: green;
+}
+
+.transferToBalanceIcon:hover {
+    cursor: pointer;
+  }
+
+.deleteIcon {
+    color: red;
+}
+
+.deleteIcon:hover {
+    cursor: pointer;
+}
+
+
+.addNewAccount {
+  user-select: none;
+}
+
+.addNewAccount:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.balanceInput {
+  height: 35px;
+  border-radius: 5px;
+}

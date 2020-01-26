@@ -1,12 +1,19 @@
 .navbar-brand:hover {
-    color: antiquewhite;
-    text-decoration: underline;
+  color: antiquewhite;
+  text-decoration: underline;
 }
 
 .navbar-brand {
-    padding-left: 7px;
+  padding-left: 7px;
+  user-select: none;
 }
+
+.navbar-brand:hover {
+  cursor: pointer;
+}
+
 .vl {
-    border-left: 3px solid maroon;
-    height: 40px;
+  border-left: 3px solid maroon;
+  height: 40px;
 }
+

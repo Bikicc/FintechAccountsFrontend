@@ -14,4 +14,29 @@ export class AccountsService {
     getAllAccounts() {
         return this.http.get(this.apiConfigUrl + "activeAccounts")
     }
+
+    deleteAccount(account) {
+        return this.http.get(this.apiConfigUrl + "deleteAccount/" + account.id)
+    }
+
+    getAllDeactivatedAccounts() {
+        return this.http.get(this.apiConfigUrl + "deletedAccounts")
+    }
+
+    activateAccount(account) {
+        return this.http.get(this.apiConfigUrl + "activateAccount/" + account.id)
+
+    }
+
+    getAccTypes() {
+        return this.http.get(this.apiConfigUrl + "AccountTypes")
+    }
+
+    gettAllCurrencies() {
+        return this.http.get(this.apiConfigUrl + "getCurrencyList")
+    }
+
+    addNewAccount(params) {
+        return this.http.post(this.apiConfigUrl + 'insertNewAccount', params)
+    }
 }

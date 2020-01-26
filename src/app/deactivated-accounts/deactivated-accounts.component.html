@@ -1,0 +1,39 @@
+<div class="mainContainer">
+    <p-toast position="bottom-left"></p-toast>
+  <div class="accountTableContainer">
+    <p-table [value]="DeactivatedAcc">
+      <ng-template pTemplate="caption">
+        <span class="tableCaption">
+          Deactivated Accounts
+        </span>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>IBAN</th>
+          <th>Type</th>
+          <th>Code</th>
+          <th>Balance</th>
+          <th>Start Date</th>
+          <th>Expiry Date</th>
+          <th class="buttonContainer"></th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-account>
+        <tr>
+          <td>{{account.iban}}</td>
+          <td>{{account.type.type}}</td>
+          <td>{{account.currency.code}}</td>
+          <td>{{account.accountBalance}}</td>
+          <td>{{account.startDate}}</td>
+          <td>{{account.expiryDate}}</td>
+          <td class="buttonContainer">
+            <i class="transferToBalanceIcon fa fa-plus" title="Activate account" (click)="activateAccount(account)"> </i>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="summary">
+        There are {{DeactivatedAcc?.length}} deactivated accounts
+    </ng-template>
+    </p-table>
+  </div>
+</div>
