@@ -1,0 +1,12 @@
+.navbar-brand:hover {
+    color: antiquewhite;
+    text-decoration: underline;
+}
+
+.navbar-brand {
+    padding-left: 7px;
+}
+.vl {
+    border-left: 3px solid maroon;
+    height: 40px;
+}
