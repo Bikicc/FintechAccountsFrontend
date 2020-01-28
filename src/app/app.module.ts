@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogModule } from 'primeng/dialog';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { DropdownModule } from 'primeng/dropdown';
+import { SpinnerModule } from 'primeng/spinner';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,13 +20,16 @@ import { AccountsComponent } from './accounts/accounts.component';
 
 import { AccountsService } from './Services/AccountsService';
 import { DeactivatedAccountsComponent } from './deactivated-accounts/deactivated-accounts.component';
+import { ExchangeRateComponent } from './exchange-rate/exchange-rate.component';
+import { exchangeRateService } from './Services/exchangeRateService';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     AccountsComponent,
-    DeactivatedAccountsComponent
+    DeactivatedAccountsComponent,
+    ExchangeRateComponent
   ],
   imports: [
     BrowserModule,
@@ -39,13 +43,15 @@ import { DeactivatedAccountsComponent } from './deactivated-accounts/deactivated
     DialogModule,
     KeyFilterModule,
     DropdownModule,
-    FormsModule
+    FormsModule,
+    SpinnerModule
   ],
 
   providers: [
     AccountsService,
-    MessageService
-    ],
+    MessageService,
+    exchangeRateService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

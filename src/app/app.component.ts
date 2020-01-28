@@ -23,6 +23,11 @@ export class AppComponent {
 
   }
 
+  routeExchangeRates() {
+    this.router.navigate(["/ExchangeRates"]);
+
+  }
+
 
 }
 

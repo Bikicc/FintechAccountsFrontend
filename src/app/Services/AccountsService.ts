@@ -39,4 +39,8 @@ export class AccountsService {
     addNewAccount(params) {
         return this.http.post(this.apiConfigUrl + 'insertNewAccount', params)
     }
+
+    transferFundsToAccount(params) {
+        return this.http.post(this.apiConfigUrl + 'addToAccountBalance', params)
+    }
 }
