@@ -28,6 +28,10 @@ export class AppComponent {
 
   }
 
+  routeAutomaticTransactions() {
+    this.router.navigate(["/AutomaticTransactions"])
+  }
+
 
 }
 

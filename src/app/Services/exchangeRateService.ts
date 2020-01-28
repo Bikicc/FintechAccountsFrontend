@@ -18,4 +18,8 @@ export class exchangeRateService {
     getAllExchangeRates() {
         return this.http.get(this.apiConfigUrl + "/getCurrencyList")
     }
+
+    // getRatesForDate(date: String, code: String) {
+    //     return this.http.get(this.apiConfigUrl + "/getExchangeRateByDate/" + code + "/" + date)
+    // }
  }

@@ -3,7 +3,13 @@
   <div class="accountTableContainer" *ngIf="selectedExchangeRate">
     <p-table [value]="selectedExchangeRate">
       <ng-template pTemplate="caption">
-          <p-dropdown [options]="exchangeRates" [(ngModel)]="findSelectedExchangeRate" optionLabel="code" (onChange)="onChangeGetExchangeRates()"></p-dropdown>
+        <span>
+          <p-dropdown [options]="exchangeRates" [(ngModel)]="findSelectedExchangeRate" optionLabel="code"
+            (onChange)="onChangeGetExchangeRates()"></p-dropdown>
+        </span>
+        <!-- <span style="float: right;">
+          <p-calendar [(ngModel)]="selectedDate" format="yy-mm-dd" [showIcon]="true" [maxDate]="maxDate" (onSelect)="getRatesForDate()"></p-calendar>
+        </span> -->
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
@@ -16,7 +22,7 @@
           <td>{{selectedExchangeRate.exchangeCurrency}}</td>
           <td>{{selectedExchangeRate.rate}}</td>
         </tr>
-      </ng-template>
+      </ng-template>      
     </p-table>
   </div>
 </div>

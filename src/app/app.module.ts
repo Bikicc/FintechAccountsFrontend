@@ -12,6 +12,7 @@ import { DialogModule } from 'primeng/dialog';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { DropdownModule } from 'primeng/dropdown';
 import { SpinnerModule } from 'primeng/spinner';
+import {CalendarModule} from 'primeng/calendar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +23,7 @@ import { AccountsService } from './Services/AccountsService';
 import { DeactivatedAccountsComponent } from './deactivated-accounts/deactivated-accounts.component';
 import { ExchangeRateComponent } from './exchange-rate/exchange-rate.component';
 import { exchangeRateService } from './Services/exchangeRateService';
+import { AutomaticTransactionsComponent } from './automatic-transactions/automatic-transactions.component';
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import { exchangeRateService } from './Services/exchangeRateService';
     AppComponent,
     AccountsComponent,
     DeactivatedAccountsComponent,
-    ExchangeRateComponent
+    ExchangeRateComponent,
+    AutomaticTransactionsComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +47,8 @@ import { exchangeRateService } from './Services/exchangeRateService';
     KeyFilterModule,
     DropdownModule,
     FormsModule,
-    SpinnerModule
+    SpinnerModule,
+    CalendarModule
   ],
 
   providers: [

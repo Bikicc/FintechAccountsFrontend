@@ -1,0 +1,26 @@
+.addNewAutomaticTransaction {
+  user-select: none;
+}
+
+.addNewAutomaticTransaction:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.balanceInput {
+  height: 35px;
+  border-radius: 5px;
+}
+
+.buttonContainer {
+  width: 2%;
+  border: none;
+}
+
+.deleteIcon {
+  color: red;
+}
+
+.deleteIcon:hover {
+  cursor: pointer;
+}
