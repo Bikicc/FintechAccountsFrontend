@@ -12,7 +12,7 @@ import { DialogModule } from 'primeng/dialog';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { DropdownModule } from 'primeng/dropdown';
 import { SpinnerModule } from 'primeng/spinner';
-import {CalendarModule} from 'primeng/calendar';
+import { CalendarModule } from 'primeng/calendar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +23,8 @@ import { DeactivatedAccountsComponent } from './deactivated-accounts/deactivated
 import { ExchangeRateComponent } from './exchange-rate/exchange-rate.component';
 import { exchangeRateService } from './Services/exchangeRateService';
 import { AutomaticTransactionsComponent } from './automatic-transactions/automatic-transactions.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { Interceptor } from './Interceptor';
 
 
 @NgModule({
@@ -53,7 +55,13 @@ import { AutomaticTransactionsComponent } from './automatic-transactions/automat
   providers: [
     AccountsService,
     MessageService,
-    exchangeRateService  ],
+    exchangeRateService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: Interceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

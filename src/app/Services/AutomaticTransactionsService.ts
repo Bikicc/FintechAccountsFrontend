@@ -26,4 +26,9 @@ export class AutomaticTransactionsService {
     getDestinationAccount(id) {
         return this.http.get(this.apiConfigUrl + "getAccountById/" + id)
     }
+
+    checkAutomaticActions() {
+        return this.http.get(this.apiConfigUrl + "fillerText/checkAutomaticActions")
+    }
+
 }

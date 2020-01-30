@@ -92,7 +92,7 @@ export class AutomaticTransactionsComponent implements OnInit {
 
   onChangeDisplayCurrentRate() {
     let Account;
-    
+
     this.ExchangeRateService.getExchangeRateById(this.selectedAccountToTransferFrom.currency.code).subscribe((data: []) => {
       Account = data.filter((e: any) => {
         return e.exchangeCurrency === this.selectedAccountToTransferTo.currency.code
@@ -136,7 +136,7 @@ export class AutomaticTransactionsComponent implements OnInit {
   }
 
   addNewAutomaticAction() {
-    if (this.condition > this.rateToShow ) {
+    if (this.condition > this.rateToShow) {
       var moreOrLess = true;
     }
     else {
@@ -191,5 +191,17 @@ export class AutomaticTransactionsComponent implements OnInit {
         });
       });
     });
+  }
+
+  onClickCheckAutomaticActions() {
+    this.automaticTransactionsService.checkAutomaticActions().subscribe(() => {
+      this.messageSerice.add({ severity: 'success', summary: 'Success', detail: 'Automatic Action has been checked successfully' });
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        console.log('Server-side error occured.');
+      }
+    }, () => { });
   }
 }

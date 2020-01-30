@@ -3,6 +3,9 @@
   <div class="automaticTransactionsTableContainer">
     <p-table [value]="automaticActions" *ngIf="automaticActions">
       <ng-template pTemplate="caption">
+        <div>
+          <button pButton type="button" label="Check Automatic Transactions" (click)="onClickCheckAutomaticActions()"></button>
+        </div>
         <span class="tableCaption">
           Automatic Actions ({{automaticActions?.length}})
         </span>

@@ -16,23 +16,6 @@ export class AppComponent {
   constructor(private router: Router, private GetTokenService: getTokenService) { }
 
   ngOnInit(): void {
-    //   const headers = {
-    //   'Content-type': 'application/x-www-form-urlencoded; charset=utf-8',
-    //   'Accept': 'application/json',
-    //   'Access-Control-Allow-Headers': 'Content-Type',
-    //   'grant_type':'password',
-    //   'username':'user',
-    //   'password':'pass',
-    //   'client_id':'client',
-    //   'client_secret':'secret'
-    // }
-
-    // let header = new Headers(headers);
-
-    // this.GetTokenService.getToken().subscribe((data) => {
-    //     console.log(data)
-    //   });
-    // }
   }
 
   routeAccounts() {

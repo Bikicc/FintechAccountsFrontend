@@ -12,14 +12,14 @@ export class exchangeRateService {
     constructor(public http: HttpClient) { }
 
     getExchangeRateById(currency) {
-        return this.http.get(this.apiConfigUrl + "/getExchangeRate/" + currency)
+        return this.http.get(this.apiConfigUrl + "getExchangeRate/" + currency)
     }
 
     getAllExchangeRates() {
-        return this.http.get(this.apiConfigUrl + "/getCurrencyList")
+        return this.http.get(this.apiConfigUrl + "getCurrencyList")
     }
 
     getRatesForDate(date: String, code: String) {
-        return this.http.get(this.apiConfigUrl + "/getExchangeRateByDate/" + code + "/" + date)
+        return this.http.get(this.apiConfigUrl + "getExchangeRateByDate/" + code + "/" + date)
     }
  }

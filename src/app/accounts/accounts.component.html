@@ -14,6 +14,7 @@
           <th>Balance</th>
           <th>Start Date</th>
           <th>Expiry Date</th>
+          <th>Reserved</th>
           <th class="buttonContainer"></th>
           <th class="buttonContainer"></th>
           <th class="buttonContainer"></th>
@@ -26,6 +27,7 @@
           <td>{{account.accountBalance}}</td>
           <td>{{account.startDate}}</td>
           <td>{{account.expiryDate}}</td>
+          <td>{{account.reserve}}</td>
           <td class="buttonContainer">
             <i class="transferToBalanceIcon fa fa-money" title="Transfer from this account"
               (click)="openTransferFundsDialog(account)"> </i>
