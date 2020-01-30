@@ -15,6 +15,9 @@ export class ExchangeRateComponent implements OnInit {
   selectedDate: Date = new Date();
   maxDate: Date = new Date();
   datePicked: boolean = false;
+  selectedExchangeRateForDate: any;
+  hideSelectedDate: boolean = true;
+  hideSelectedCurrency: boolean = false;
 
   constructor(private ExchangeRateService: exchangeRateService) { }
 
@@ -44,6 +47,9 @@ export class ExchangeRateComponent implements OnInit {
   onChangeGetExchangeRates() {
     this.ExchangeRateService.getExchangeRateById(this.findSelectedExchangeRate.code).subscribe((data) => {
       this.selectedExchangeRate = data;
+      this.selectedDate = new Date();
+      this.hideSelectedDate = true;
+      this.hideSelectedCurrency = false;
     }, (err: HttpErrorResponse) => {
       if (err.error instanceof Error) {
         console.log('Client-side error occured.');
@@ -53,20 +59,28 @@ export class ExchangeRateComponent implements OnInit {
     }, () => { });
   }
 
-  // getRatesForDate() {
-  //   let selectedDateArray = this.selectedDate.toLocaleDateString().split('/').reverse();
-  //   let dateFormated = selectedDateArray[0] + '-' + selectedDateArray[2] + '-' + selectedDateArray[1];
+  getRatesForDate() {
+    let selectedDateArray = this.selectedDate.toLocaleDateString().split('/').reverse();
+    let dateFormated = selectedDateArray[0] + '-' + selectedDateArray[2] + '-' + selectedDateArray[1];
 
-  //   this.ExchangeRateService.getRatesForDate(dateFormated, this.findSelectedExchangeRate.code).subscribe((data) => {
-  //     console.log(data)
-  //   }, (err: HttpErrorResponse) => {
-  //     if (err.error instanceof Error) {
-  //       console.log('Client-side error occured.');
-  //     } else {
-  //       console.log('Server-side error occured.');
-  //     }
-  //   }, () => { });
+    this.ExchangeRateService.getRatesForDate(dateFormated, this.findSelectedExchangeRate.code).subscribe((data: any) => {
+      this.selectedExchangeRateForDate = Object.keys(data.rates).map(e => {
+        return {
+          Currency: e,
+          Value: data.rates[e]
+        };
+      });
+      this.hideSelectedDate = false;
+      this.hideSelectedCurrency = true;
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        console.log('Server-side error occured.');
+      }
+    }, () => { });
 
-  // }
+  }
+
 
 }

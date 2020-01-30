@@ -10,7 +10,6 @@
       <ng-template pTemplate="header">
         <tr>
           <th>IBAN</th>
-          <th>Type</th>
           <th>Code</th>
           <th>Balance</th>
           <th>Start Date</th>
@@ -21,7 +20,6 @@
       <ng-template pTemplate="body" let-account>
         <tr>
           <td>{{account.iban}}</td>
-          <td>{{account.type.type}}</td>
           <td>{{account.currency.code}}</td>
           <td>{{account.accountBalance}}</td>
           <td>{{account.startDate}}</td>

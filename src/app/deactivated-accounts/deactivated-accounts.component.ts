@@ -32,18 +32,32 @@ export class DeactivatedAccountsComponent implements OnInit {
 
 
   activateAccount(account: any) {
-    this.accountService.activateAccount(account).subscribe(() => {
-      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account has been activated successfully' });
-      this.accountService.getAllDeactivatedAccounts().subscribe((data) => {
-        this.formatDates(data);
+    let canActivate: boolean = true;
+
+    this.accountService.getAllAccounts().subscribe((data: any = []) => {
+      data.forEach(element => {
+        if (element.currency.code === account.currency.code) {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'You cannot activate this account (account with this currency already exists)' });
+          canActivate = false;
+          return;
+        }
       });
-    }, (err: HttpErrorResponse) => {
-      if (err.error instanceof Error) {
-        console.log('Client-side error occured.');
-      } else {
-        console.log('Server-side error occured.');
+      
+      if (canActivate == true) {
+        this.accountService.activateAccount(account).subscribe(() => {
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account has been activated successfully' });
+          this.accountService.getAllDeactivatedAccounts().subscribe((data) => {
+            this.formatDates(data);
+          });
+        }, (err: HttpErrorResponse) => {
+          if (err.error instanceof Error) {
+            console.log('Client-side error occured.');
+          } else {
+            console.log('Server-side error occured.');
+          }
+        }, () => { });
       }
-    }, () => { });
+    });
   }
 
   formatDates(accounts) {

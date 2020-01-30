@@ -18,7 +18,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccountsComponent } from './accounts/accounts.component';
 
-
 import { AccountsService } from './Services/AccountsService';
 import { DeactivatedAccountsComponent } from './deactivated-accounts/deactivated-accounts.component';
 import { ExchangeRateComponent } from './exchange-rate/exchange-rate.component';
@@ -54,8 +53,7 @@ import { AutomaticTransactionsComponent } from './automatic-transactions/automat
   providers: [
     AccountsService,
     MessageService,
-    exchangeRateService
-  ],
+    exchangeRateService  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

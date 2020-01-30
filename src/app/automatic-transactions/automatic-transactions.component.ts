@@ -1,3 +1,4 @@
+import { exchangeRateService } from './../Services/exchangeRateService';
 import { MessageService } from 'primeng/api';
 import { AccountsService } from './../Services/AccountsService';
 import { AutomaticTransactionsService } from './../Services/AutomaticTransactionsService';
@@ -19,11 +20,14 @@ export class AutomaticTransactionsComponent implements OnInit {
   selectedAccountToTransferTo: any;
   amountToTransfer: number;
   condition: number;
+  displayTable: boolean = false;
+  rateToShow: number;
 
   constructor(
     public automaticTransactionsService: AutomaticTransactionsService,
     public accountService: AccountsService,
-    public messageSerice: MessageService
+    public messageSerice: MessageService,
+    public ExchangeRateService: exchangeRateService
   ) { }
 
   ngOnInit() {
@@ -31,7 +35,7 @@ export class AutomaticTransactionsComponent implements OnInit {
       this.automaticActions = data;
       this.automaticActions.forEach(element => {
         this.automaticTransactionsService.getDestinationAccount(element.destinationAccount).subscribe((data) => {
-          element.destAccount = data;
+          element.destinationAccount = data;
         })
       });
     }, (err: HttpErrorResponse) => {
@@ -59,9 +63,23 @@ export class AutomaticTransactionsComponent implements OnInit {
   }
 
   openAddNewAutomaticTransactionDialog() {
+    let Account;
+
     if (this.Accounts.length > 1) {
       this.amountToTransfer = this.selectedAccountToTransferFrom.accountBalance;
       this.displayAutomaticAction = true;
+      this.ExchangeRateService.getExchangeRateById(this.selectedAccountToTransferFrom.currency.code).subscribe((data: []) => {
+        Account = data.filter((e: any) => {
+          return e.exchangeCurrency === this.selectedAccountToTransferTo.currency.code
+        })
+        this.rateToShow = Account[0].rate
+      }, (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('Client-side error occured.');
+        } else {
+          console.log('Server-side error occured.');
+        }
+      }, () => { });
     }
     else {
       this.messageSerice.add({ severity: 'error', summary: 'Error', detail: 'There is lack in accounts number' });
@@ -72,7 +90,39 @@ export class AutomaticTransactionsComponent implements OnInit {
     this.displayAutomaticAction = false;
   }
 
+  onChangeDisplayCurrentRate() {
+    let Account;
+    
+    this.ExchangeRateService.getExchangeRateById(this.selectedAccountToTransferFrom.currency.code).subscribe((data: []) => {
+      Account = data.filter((e: any) => {
+        return e.exchangeCurrency === this.selectedAccountToTransferTo.currency.code
+      })
+      this.rateToShow = Account[0].rate
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        console.log('Server-side error occured.');
+      }
+    }, () => { });
+  }
+
   onChangeFilterAccounts() {
+    let Account;
+
+    this.ExchangeRateService.getExchangeRateById(this.selectedAccountToTransferFrom.currency.code).subscribe((data: []) => {
+      Account = data.filter((e: any) => {
+        return e.exchangeCurrency === this.selectedAccountToTransferTo.currency.code
+      })
+      this.rateToShow = Account[0].rate
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        console.log('Server-side error occured.');
+      }
+    }, () => { });
+
     this.accountsTo = this.Accounts.filter((e) => {
       return e.id != this.selectedAccountToTransferFrom.id
     })
@@ -86,11 +136,19 @@ export class AutomaticTransactionsComponent implements OnInit {
   }
 
   addNewAutomaticAction() {
+    if (this.condition > this.rateToShow ) {
+      var moreOrLess = true;
+    }
+    else {
+      var moreOrLess = false;
+    }
+
     let params = {
       sourceAccount: this.selectedAccountToTransferFrom,
       destinationAccount: this.selectedAccountToTransferTo.id,
       excRate: this.condition,
-      amount: this.amountToTransfer
+      amount: this.amountToTransfer,
+      moreORless: moreOrLess
     }
 
     this.automaticTransactionsService.inserNewAutomaticTransactions(params).subscribe(() => {
@@ -102,7 +160,7 @@ export class AutomaticTransactionsComponent implements OnInit {
         this.automaticActions = data;
         this.automaticActions.forEach(element => {
           this.automaticTransactionsService.getDestinationAccount(element.destinationAccount).subscribe((data) => {
-            element.destAccount = data;
+            element.destinationAccount = data;
           })
         });
       }, (err: HttpErrorResponse) => {
@@ -128,7 +186,7 @@ export class AutomaticTransactionsComponent implements OnInit {
         this.automaticActions = data;
         this.automaticActions.forEach(element => {
           this.automaticTransactionsService.getDestinationAccount(element.destinationAccount).subscribe((data) => {
-            element.destAccount = data;
+            element.destinationAccount = data;
           })
         });
       });

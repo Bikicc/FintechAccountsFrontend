@@ -9,7 +9,8 @@ export class AccountsService {
 
     apiConfigUrl: String = 'http://localhost:4000/';
 
-    constructor(public http: HttpClient) { }
+    constructor(public http: HttpClient) {
+     }
 
     getAllAccounts() {
         return this.http.get(this.apiConfigUrl + "activeAccounts")
@@ -20,16 +21,12 @@ export class AccountsService {
     }
 
     getAllDeactivatedAccounts() {
-        return this.http.get(this.apiConfigUrl + "deletedAccounts")
+        return this.http.get(this.apiConfigUrl + "deactivatedAccounts")
     }
 
     activateAccount(account) {
         return this.http.get(this.apiConfigUrl + "activateAccount/" + account.id)
 
-    }
-
-    getAccTypes() {
-        return this.http.get(this.apiConfigUrl + "AccountTypes")
     }
 
     gettAllCurrencies() {
@@ -42,5 +39,9 @@ export class AccountsService {
 
     transferFundsToAccount(params) {
         return this.http.post(this.apiConfigUrl + 'addToAccountBalance', params)
+    }
+
+    getAccountHistory(account) {
+        return this.http.get(this.apiConfigUrl + "AccountActivityHistory/" + account.id)
     }
 }

@@ -1,15 +1,17 @@
 <div class="mainContainer">
   <p-toast position="bottom-left"></p-toast>
   <div class="accountTableContainer" *ngIf="selectedExchangeRate">
-    <p-table [value]="selectedExchangeRate">
+    <p-table [value]="selectedExchangeRate" [hidden]="hideSelectedCurrency">
       <ng-template pTemplate="caption">
-        <span>
+        <span style="padding-left: 130px;">
           <p-dropdown [options]="exchangeRates" [(ngModel)]="findSelectedExchangeRate" optionLabel="code"
-            (onChange)="onChangeGetExchangeRates()"></p-dropdown>
+        (onChange)="onChangeGetExchangeRates()"></p-dropdown>
         </span>
-        <!-- <span style="float: right;">
-          <p-calendar [(ngModel)]="selectedDate" format="yy-mm-dd" [showIcon]="true" [maxDate]="maxDate" (onSelect)="getRatesForDate()"></p-calendar>
-        </span> -->
+
+        <span style="float: right;">
+          <p-calendar [(ngModel)]="selectedDate" format="yy-mm-dd" [showIcon]="true" [maxDate]="maxDate"
+            (onSelect)="getRatesForDate()"></p-calendar>
+        </span>
       </ng-template>
       <ng-template pTemplate="header">
         <tr>
@@ -22,7 +24,32 @@
           <td>{{selectedExchangeRate.exchangeCurrency}}</td>
           <td>{{selectedExchangeRate.rate}}</td>
         </tr>
-      </ng-template>      
+      </ng-template>
     </p-table>
   </div>
 </div>
+
+<p-table [value]="selectedExchangeRateForDate" [hidden]="hideSelectedDate">
+  <ng-template pTemplate="caption">
+    <span style="padding-left: 250px;">
+      <p-dropdown [options]="exchangeRates" [(ngModel)]="findSelectedExchangeRate" optionLabel="code"
+        (onChange)="onChangeGetExchangeRates()"></p-dropdown>
+    </span>
+    <span style="float: right;">
+      <p-calendar [(ngModel)]="selectedDate" format="yy-mm-dd" [showIcon]="true" [maxDate]="maxDate"
+        (onSelect)="getRatesForDate()"></p-calendar>
+    </span>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th>Exchange currency</th>
+      <th>Rate</th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-selectedExchangeRateForDate>
+    <tr>
+      <td>{{selectedExchangeRateForDate.Currency}}</td>
+      <td>{{selectedExchangeRateForDate.Value}}</td>
+    </tr>
+  </ng-template>
+</p-table>

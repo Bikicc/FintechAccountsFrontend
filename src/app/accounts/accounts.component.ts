@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { AccountsService } from '../Services/AccountsService';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
+import { exchangeRateService } from './../Services/exchangeRateService';
+
 
 
 @Component({
@@ -15,7 +17,6 @@ export class AccountsComponent implements OnInit {
   AccountsToTransferTo: any = [];
   displayAddNewAcc: boolean = false;
   displayTransferFunds: boolean = false;
-  accountTypes: any = [];
   selectedAccType: any;
   currencies: any;
   selectedCurrency: any;
@@ -25,10 +26,16 @@ export class AccountsComponent implements OnInit {
   selectedAccountToTransferTo: any;
   nonExistentAccounts: any = [];
   displayDeleteDialog: boolean = false;
+  displayAccountHistoryDialog: boolean = false;
+  accountHistoryActivity: any;
+  setActivityHistoryAccount: String;
+  rateToShow: number;
+
 
   constructor(
     private accountService: AccountsService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    public ExchangeRateService: exchangeRateService
   ) { }
 
   ngOnInit() {
@@ -79,17 +86,6 @@ export class AccountsComponent implements OnInit {
       }
     }, () => { });
 
-    this.accountService.getAccTypes().subscribe((data) => {
-      this.accountTypes = data;
-      this.selectedAccType = data[0];
-    }, (err: HttpErrorResponse) => {
-      if (err.error instanceof Error) {
-        console.log('Client-side error occured.');
-      } else {
-        console.log('Server-side error occured.');
-      }
-    }, () => { });
-
     this.displayAddNewAcc = true;
   }
 
@@ -129,8 +125,21 @@ export class AccountsComponent implements OnInit {
   }
 
   openTransferFundsDialog(account) {
-    this.displayTransferFunds = true;
+    let Account;
     this.selectedAccountTransferFrom = account;
+    this.ExchangeRateService.getExchangeRateById(this.selectedAccountTransferFrom.currency.code).subscribe((data: []) => {
+      Account = data.filter((e: any) => {
+        return e.exchangeCurrency === this.selectedAccountToTransferTo.currency.code
+      })
+      this.rateToShow = Account[0].rate
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        console.log('Server-side error occured.');
+      }
+    }, () => { });
+    this.displayTransferFunds = true;
     this.balanceToTransfer = this.selectedAccountTransferFrom.accountBalance;
     this.AccountsToTransferTo = this.Accounts.filter((e) => {
       return e.id != this.selectedAccountTransferFrom.id
@@ -205,7 +214,7 @@ export class AccountsComponent implements OnInit {
   }
 
   deleteAccountWithFunds(account: any) {
-    
+
     let params = {
       accountFrom: this.selectedAccountTransferFrom,
       accountTo: this.selectedAccountToTransferTo,
@@ -224,12 +233,47 @@ export class AccountsComponent implements OnInit {
         } else {
           console.log('Server-side error occured.');
         }
-      }, () => { 
+      }, () => {
         this.selectedAccountTransferFrom = null;
-        this.displayTransferFunds = false;
+        this.displayDeleteDialog = false;
         this.balanceToTransfer = 0;
       });
     })
 
+  }
+
+  openAccountHistory(account: any) {
+    this.setActivityHistoryAccount = account.currency.code;
+
+    this.accountService.getAccountHistory(account).subscribe((data) => {
+      this.accountHistoryActivity = data;
+      this.accountHistoryActivity.forEach(element => {
+        element.activityChangeDate = element.activityChangeDate.split('T')[0];
+      });
+      this.displayAccountHistoryDialog = true;
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        console.log('Server-side error occured.');
+      }
+    }, () => { });
+  }
+
+  onChangeSetRatesToShow() {
+    let Account;
+    
+    this.ExchangeRateService.getExchangeRateById(this.selectedAccountTransferFrom.currency.code).subscribe((data: []) => {
+      Account = data.filter((e: any) => {
+        return e.exchangeCurrency === this.selectedAccountToTransferTo.currency.code
+      })
+      this.rateToShow = Account[0].rate
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        console.log('Server-side error occured.');
+      }
+    }, () => { });
   }
 }

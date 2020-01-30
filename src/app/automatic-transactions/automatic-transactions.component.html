@@ -1,7 +1,7 @@
 <div class="mainContainer">
   <p-toast position="bottom-left"></p-toast>
   <div class="automaticTransactionsTableContainer">
-    <p-table [value]="automaticActions">
+    <p-table [value]="automaticActions" *ngIf="automaticActions">
       <ng-template pTemplate="caption">
         <span class="tableCaption">
           Automatic Actions ({{automaticActions?.length}})
@@ -16,14 +16,15 @@
           <th class="buttonContainer"></th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-automaticTransactions>
-        <tr>
-          <td>{{automaticTransactions.sourceAccount.currency.code}}</td>
-          <td>{{automaticTransactions.destAccount.currency.code}}</td>
-          <td>{{automaticTransactions.amount}}</td>
-          <td>{{automaticTransactions.excRate}}</td>
+      <ng-template pTemplate="body" let-automaticActions>
+        <tr *ngIf="automaticActions.destinationAccount.currency">
+          <td>{{automaticActions.sourceAccount.currency.code}}</td>
+          <td>{{automaticActions.destinationAccount.currency.code}}</td>
+          <td>{{automaticActions.amount}}</td>
+          <td>{{automaticActions.excRate}}</td>
           <td class="buttonContainer">
-            <i class="deleteIcon fa fa-trash" title="Delete account" (click)="DeleteAutomaticAction(automaticTransactions)">
+            <i class="deleteIcon fa fa-trash" title="Delete account"
+              (click)="DeleteAutomaticAction(automaticActions)">
             </i>
           </td>
         </tr>
@@ -36,15 +37,15 @@
   </div>
 </div>
 
-<p-dialog header="Add new automatic action" [(visible)]="displayAutomaticAction" [modal]="true" [closable]="false" *ngIf="selectedAccountToTransferFrom" 
-  [style]="{width: '600px', minWidth: '200px'}" [contentStyle]="{'overflow':'visible'}" [positionTop]="20" [minY]="100"
-  [baseZIndex]="10000">
+<p-dialog header="Add new automatic action" [(visible)]="displayAutomaticAction" [modal]="true" [closable]="false"
+  *ngIf="selectedAccountToTransferFrom" [style]="{width: '600px', minWidth: '200px'}"
+  [contentStyle]="{'overflow':'visible'}" [positionTop]="20" [minY]="100" [baseZIndex]="10000">
   <div>
     <div class="ui-g ui-fluid form-group">
       <div class="ui-g-12 ui-lg-6" style="padding: 10px;">
         <label>From account</label>
-        <p-dropdown [options]="Accounts" [(ngModel)]="selectedAccountToTransferFrom" (onChange)="onChangeFilterAccounts()"
-          optionLabel="currency.code">
+        <p-dropdown [options]="Accounts" [(ngModel)]="selectedAccountToTransferFrom"
+          (onChange)="onChangeFilterAccounts()" optionLabel="currency.code">
         </p-dropdown>
       </div>
       <div class="ui-g-12 ui-lg-6" style="padding: 10px;">
@@ -54,8 +55,7 @@
       </div>
       <div class="ui-g-12 ui-lg-6" style="padding: 10px;">
         <label>To account</label>
-        <p-dropdown [options]="accountsTo" [(ngModel)]="selectedAccountToTransferTo"
-          optionLabel="currency.code">
+        <p-dropdown [options]="accountsTo" [(ngModel)]="selectedAccountToTransferTo" optionLabel="currency.code" (onChange)="onChangeDisplayCurrentRate()">
         </p-dropdown>
       </div>
       <div class="ui-g-12 ui-lg-6" style="padding: 10px;">
@@ -66,8 +66,12 @@
     </div>
   </div>
   <p-footer>
+    <span style="float: left;">
+      <input class="balanceInput" type="text" pKeyFilter="pnum" [(ngModel)]="rateToShow" disabled>
+    </span>
+
     <button type="button" pButton icon="fa fa-check" (click)="addNewAutomaticAction()" label="Save"
-      class="ui-button-success" [disabled]="!condition"></button>
+      class="ui-button-success" [disabled]="!condition || !amountToTransfer"></button>
 
     <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeInserNewAutomaticActionDialog()" label="Cancel"
       class="ui-button-secondary"></button>

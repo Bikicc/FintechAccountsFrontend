@@ -37,6 +37,11 @@ tr {
   cursor: pointer;
 }
 
+.viewAccountHistory:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 .balanceInput {
   height: 35px;
   border-radius: 5px;
