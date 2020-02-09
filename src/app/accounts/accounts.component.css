@@ -27,17 +27,11 @@ tr {
     cursor: pointer;
 }
 
-
-.addNewAccount {
+.actionButtons {
   user-select: none;
 }
 
-.addNewAccount:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.viewAccountHistory:hover {
+.actionButtons:hover {
   text-decoration: underline;
   cursor: pointer;
 }

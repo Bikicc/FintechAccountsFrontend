@@ -36,13 +36,21 @@
             <i class="deleteIcon fa fa-trash" title="Delete account" (click)="openDeleteDialog(account)"> </i>
           </td>
           <td class="buttonContainer">
-            <i class="viewAccountHistory fa fa-eye" title="View account history" (click)="openAccountHistory(account)">
+            <i class="actionButtons fa fa-eye" title="View account history" (click)="openAccountHistory(account)">
             </i>
           </td>
         </tr>
       </ng-template>
       <ng-template pTemplate="summary">
-        <a class="addNewAccount" (click)="openAddNewAccountDialog()">Add new account</a>
+        <span style="padding-right: 20px;">
+          <a class="actionButtons" (click)="openAddToBalanceDialog()">Add to balance</a>
+        </span>
+        <span>
+          <a class="actionButtons" (click)="openAddNewAccountDialog()">Add new account</a>
+        </span>
+        <span style="padding-left: 20px;">
+          <a class="actionButtons" (click)="openMakeTransferDialog()">Make payment</a>
+        </span>
       </ng-template>
     </p-table>
   </div>
@@ -100,7 +108,7 @@
     <span style="float: left;">
       <input class="balanceInput" type="text" pKeyFilter="pnum" [(ngModel)]="rateToShow" disabled>
     </span>
-    
+
     <button type="button" pButton icon="fa fa-check" (click)="transferFundsToAccount()" label="Save"
       class="ui-button-success" [disabled]="!balanceToTransfer"></button>
 
@@ -168,3 +176,54 @@
     </p-table>
   </div>
 </p-dialog>
+
+<p-dialog header="Make a payment" [(visible)]="displayMakeTransferDialog" [modal]="true" [closable]="false"
+  [style]="{width: '600px', minWidth: '200px'}" [contentStyle]="{'overflow':'visible'}" [positionTop]="20" [minY]="100"
+  [baseZIndex]="10000">
+  <div>
+    <div class="ui-g ui-fluid form-group">
+      <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 15px;">
+        <label>Amount to pay:</label>
+        <input class="balanceInput" type="text" pKeyFilter="pnum" [(ngModel)]="balanceToTransfer">
+      </div>
+      <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
+        <label>Currency to transfer to:</label>
+        <p-dropdown [options]="exchangeRates" [(ngModel)]="selectedCurrencyToTransferTo" optionLabel="code">
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="fa fa-check" (click)="transferFundsFromCard()" label="Save"
+      class="ui-button-success" [disabled]="!balanceToTransfer"></button>
+
+    <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeTransferFundsDialog()" label="Cancel"
+      class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="Add to account balance" [(visible)]="displayAddToBalanceDialog" [modal]="true" [closable]="false"
+  [style]="{width: '600px', minWidth: '200px'}" [contentStyle]="{'overflow':'visible'}" [positionTop]="20" [minY]="100"
+  [baseZIndex]="10000">
+  <div>
+    <div class="ui-g ui-fluid form-group">
+      <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 15px;">
+        <label>Amount to add:</label>
+        <input class="balanceInput" type="text" pKeyFilter="pnum" [(ngModel)]="balanceToTransfer">
+      </div>
+      <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
+        <label>Currency to transfer to:</label>
+        <p-dropdown [options]="Accounts" [(ngModel)]="selectedAccountToTransferTo" optionLabel="currency.code">
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="fa fa-check" (click)="addToBalance()" label="Save"
+      class="ui-button-success" [disabled]="!balanceToTransfer"></button>
+
+    <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeAddToBalanceToDialog()" label="Cancel"
+      class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>
+

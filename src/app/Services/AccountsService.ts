@@ -46,4 +46,12 @@ export class AccountsService {
     getAccountHistory(account) {
         return this.http.get(this.apiConfigUrl + "AccountActivityHistory/" + account.id)
     }
+
+    makePayment(params) {
+        return this.http.post(this.apiConfigUrl + "removeBalance" , params) 
+    }
+
+    addToBalance(params) {
+        return this.http.post(this.apiConfigUrl + "addToAccountBalance" , params) 
+    }
 }

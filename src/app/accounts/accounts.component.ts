@@ -30,6 +30,10 @@ export class AccountsComponent implements OnInit {
   accountHistoryActivity: any;
   setActivityHistoryAccount: String;
   rateToShow: number;
+  displayMakeTransferDialog: boolean = false;
+  exchangeRates: any[];
+  selectedCurrencyToTransferTo: any = {};
+  displayAddToBalanceDialog: boolean = false;
 
 
   constructor(
@@ -48,6 +52,11 @@ export class AccountsComponent implements OnInit {
         console.log('Server-side error occured.');
       }
     }, () => { });
+
+    this.ExchangeRateService.getAllExchangeRates().subscribe((data: []) => {
+      this.exchangeRates = data;
+      this.selectedCurrencyToTransferTo = this.exchangeRates[0];
+    })
   }
 
   deleteAccount(account: any) {
@@ -262,12 +271,96 @@ export class AccountsComponent implements OnInit {
 
   onChangeSetRatesToShow() {
     let Account;
-    
+
     this.ExchangeRateService.getExchangeRateById(this.selectedAccountTransferFrom.currency.code).subscribe((data: []) => {
       Account = data.filter((e: any) => {
         return e.exchangeCurrency === this.selectedAccountToTransferTo.currency.code
       })
       this.rateToShow = Account[0].rate
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        console.log('Server-side error occured.');
+      }
+    }, () => { });
+  }
+
+  openMakeTransferDialog() {
+    this.displayMakeTransferDialog = true;
+  }
+
+  closeTransferFundsDialog() {
+    this.displayMakeTransferDialog = false;
+    this.selectedCurrencyToTransferTo = this.exchangeRates[0];
+    this.balanceToTransfer = null;
+  }
+
+  transferFundsFromCard() {
+    let params = {
+      userId: 1,
+      balanceToTransfer: this.balanceToTransfer,
+      currencyCode: this.selectedCurrencyToTransferTo.code
+    }
+    this.accountService.makePayment(params).subscribe(() => {
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Payment has been successfully made!' });
+      this.selectedAccountToTransferTo = null;
+      this.balanceToTransfer = null;
+      this.displayMakeTransferDialog = false;
+      this.accountService.getAllAccounts().subscribe((data) => {
+        this.formatDates(data);
+  
+      }, (err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('Client-side error occured.');
+        } else {
+          console.log('Server-side error occured.');
+        }
+      }, () => { });
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        console.log('Server-side error occured.');
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'No funds available!' });
+      }
+    }, () => { });
+    
+  }
+
+  openAddToBalanceDialog() {
+    this.displayAddToBalanceDialog = true;
+    this.selectedAccountToTransferTo = this.Accounts[0];
+  }
+
+  closeAddToBalanceToDialog() {
+    this.displayAddToBalanceDialog = false;
+    this.selectedAccountToTransferTo = null;
+    this.balanceToTransfer = null;
+  }
+
+  addToBalance() {
+    let params = {
+      accountTo: this.selectedAccountToTransferTo,
+      balanceToTransfer: this.balanceToTransfer,
+      accountFrom: null
+    }
+
+    this.accountService.addToBalance(params).subscribe((data) => {
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Funds have been transferes successfully!' });
+      this.selectedAccountToTransferTo = null;
+      this.balanceToTransfer = null;
+      this.displayAddToBalanceDialog = false;
+      this.accountService.getAllAccounts().subscribe((data) => {
+        this.formatDates(data);
+
+      },(err: HttpErrorResponse) => {
+        if (err.error instanceof Error) {
+          console.log('Client-side error occured.');
+        } else {
+          console.log('Server-side error occured.');
+        }
+      }, () => { });
     }, (err: HttpErrorResponse) => {
       if (err.error instanceof Error) {
         console.log('Client-side error occured.');

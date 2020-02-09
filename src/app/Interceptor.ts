@@ -7,13 +7,15 @@ export class Interceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = 'Bearer 732eb2a9-15ed-414c-baf5-7894a6063b42'
+    const token = 'Bearer a1b09763-3bd5-4fd7-a6db-d175002ff15d'
 
     const req1 = req.clone({
       setHeaders: {
-        Authorization: token
-      }
-    })
+        'Content-Type' : 'application/json; charset=utf-8',
+        'Accept'       : 'application/json',
+        'Authorization': token
+      },
+    });
      return next.handle(req1);
   }
 

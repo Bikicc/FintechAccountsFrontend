@@ -1,4 +1,3 @@
-import { getTokenService } from './Services/getTokenService';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -13,7 +12,7 @@ export class AppComponent {
   title = 'FintechAccountsFrontend';
   displayAddNewAcc: boolean = false;
 
-  constructor(private router: Router, private GetTokenService: getTokenService) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
