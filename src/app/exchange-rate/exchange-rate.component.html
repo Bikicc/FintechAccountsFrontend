@@ -1,11 +1,14 @@
 <div class="mainContainer">
   <p-toast position="bottom-left"></p-toast>
   <div class="accountTableContainer" *ngIf="selectedExchangeRate">
-    <p-table [value]="selectedExchangeRate" [hidden]="hideSelectedCurrency">
+    <p-table [value]="selectedExchangeRate" [hidden]="hideSelectedCurrency" *ngIf="selectedExchangeRate">
       <ng-template pTemplate="caption">
         <span style="padding-left: 130px;">
           <p-dropdown [options]="exchangeRates" [(ngModel)]="findSelectedExchangeRate" optionLabel="code"
-        (onChange)="onChangeGetExchangeRates()"></p-dropdown>
+        (onChange)="onChangeGetExchangeRates()" filter="true"></p-dropdown>
+        </span>
+        <span style="padding: 8px;">
+          <input class="amountToConvert"  type="text"  pKeyFilter="pnum" [(ngModel)]="amountToConvert" (input)="displayConvertedResult()">
         </span>
 
         <span style="float: right;">
@@ -17,12 +20,17 @@
         <tr>
           <th>Exchange currency</th>
           <th>Rate</th>
+          <th>Exchange</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-selectedExchangeRate>
         <tr>
           <td>{{selectedExchangeRate.exchangeCurrency}}</td>
-          <td>{{selectedExchangeRate.rate}}</td>
+          <td>{{selectedExchangeRate.rate}}  
+          </td>
+          <td>
+            {{selectedExchangeRate.convertedAmount}} 
+          </td>
         </tr>
       </ng-template>
     </p-table>
@@ -33,7 +41,7 @@
   <ng-template pTemplate="caption">
     <span style="padding-left: 250px;">
       <p-dropdown [options]="exchangeRates" [(ngModel)]="findSelectedExchangeRate" optionLabel="code"
-        (onChange)="onChangeGetExchangeRates()"></p-dropdown>
+        (onChange)="onChangeGetExchangeRates()" filter="true"></p-dropdown>
     </span>
     <span style="float: right;">
       <p-calendar [(ngModel)]="selectedDate" format="yy-mm-dd" [showIcon]="true" [maxDate]="maxDate"

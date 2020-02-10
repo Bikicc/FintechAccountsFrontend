@@ -68,7 +68,7 @@
 
       <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
         <label>Currency</label>
-        <p-dropdown [options]="nonExistentAccounts" [(ngModel)]="selectedCurrency" optionLabel="code">
+        <p-dropdown [options]="nonExistentAccounts" [(ngModel)]="selectedCurrency" optionLabel="code" filter="true">
         </p-dropdown>
       </div>
     </div>
@@ -99,7 +99,7 @@
       <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
         <label>To account</label>
         <p-dropdown [options]="AccountsToTransferTo" [(ngModel)]="selectedAccountToTransferTo"
-          optionLabel="currency.code" (onChange)="onChangeSetRatesToShow()">
+          optionLabel="currency.code" (onChange)="onChangeSetRatesToShow()" filter="true">
         </p-dropdown>
       </div>
     </div>
@@ -134,7 +134,7 @@
       <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
         <label>To account</label>
         <p-dropdown [options]="AccountsToTransferTo" [(ngModel)]="selectedAccountToTransferTo"
-          optionLabel="currency.code">
+          optionLabel="currency.code" filter="true">
         </p-dropdown>
       </div>
     </div>
@@ -188,7 +188,7 @@
       </div>
       <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
         <label>Currency to transfer to:</label>
-        <p-dropdown [options]="exchangeRates" [(ngModel)]="selectedCurrencyToTransferTo" optionLabel="code">
+        <p-dropdown [options]="exchangeRates" [(ngModel)]="selectedCurrencyToTransferTo" optionLabel="code" filter="true">
         </p-dropdown>
       </div>
     </div>
@@ -213,7 +213,7 @@
       </div>
       <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
         <label>Currency to transfer to:</label>
-        <p-dropdown [options]="Accounts" [(ngModel)]="selectedAccountToTransferTo" optionLabel="currency.code">
+        <p-dropdown [options]="Accounts" [(ngModel)]="selectedAccountToTransferTo" optionLabel="currency.code" filter="true">
         </p-dropdown>
       </div>
     </div>

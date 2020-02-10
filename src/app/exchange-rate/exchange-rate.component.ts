@@ -18,12 +18,14 @@ export class ExchangeRateComponent implements OnInit {
   selectedExchangeRateForDate: any;
   hideSelectedDate: boolean = true;
   hideSelectedCurrency: boolean = false;
+  amountToConvert: number = 1;
 
   constructor(private ExchangeRateService: exchangeRateService) { }
 
   ngOnInit() {
     this.ExchangeRateService.getExchangeRateById(this.defaultExchangeRate).subscribe((data) => {
       this.selectedExchangeRate = data;
+      this.displayConvertedResult();
       this.findSelectedExchangeRate = data[0].baseCurrency;
     }, (err: HttpErrorResponse) => {
       if (err.error instanceof Error) {
@@ -42,6 +44,7 @@ export class ExchangeRateComponent implements OnInit {
         console.log('Server-side error occured.');
       }
     }, () => { });
+
   }
 
   onChangeGetExchangeRates() {
@@ -50,6 +53,7 @@ export class ExchangeRateComponent implements OnInit {
       this.selectedDate = new Date();
       this.hideSelectedDate = true;
       this.hideSelectedCurrency = false;
+      this.displayConvertedResult();
     }, (err: HttpErrorResponse) => {
       if (err.error instanceof Error) {
         console.log('Client-side error occured.');
@@ -82,5 +86,10 @@ export class ExchangeRateComponent implements OnInit {
 
   }
 
+  displayConvertedResult() {
+     this.selectedExchangeRate.map((e) => {
+      e.convertedAmount = (this.amountToConvert * e.rate).toFixed(5) ;
+    })
+  }
 
 }

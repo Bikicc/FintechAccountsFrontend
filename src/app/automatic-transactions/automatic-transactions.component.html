@@ -48,7 +48,7 @@
       <div class="ui-g-12 ui-lg-6" style="padding: 10px;">
         <label>From account</label>
         <p-dropdown [options]="Accounts" [(ngModel)]="selectedAccountToTransferFrom"
-          (onChange)="onChangeFilterAccounts()" optionLabel="currency.code">
+          (onChange)="onChangeFilterAccounts()" optionLabel="currency.code" filter="true">
         </p-dropdown>
       </div>
       <div class="ui-g-12 ui-lg-6" style="padding: 10px;">
@@ -58,7 +58,7 @@
       </div>
       <div class="ui-g-12 ui-lg-6" style="padding: 10px;">
         <label>To account</label>
-        <p-dropdown [options]="accountsTo" [(ngModel)]="selectedAccountToTransferTo" optionLabel="currency.code" (onChange)="onChangeDisplayCurrentRate()">
+        <p-dropdown [options]="accountsTo" [(ngModel)]="selectedAccountToTransferTo" optionLabel="currency.code" (onChange)="onChangeDisplayCurrentRate()" filter="true">
         </p-dropdown>
       </div>
       <div class="ui-g-12 ui-lg-6" style="padding: 10px;">
