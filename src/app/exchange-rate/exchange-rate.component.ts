@@ -71,7 +71,8 @@ export class ExchangeRateComponent implements OnInit {
       this.selectedExchangeRateForDate = Object.keys(data.rates).map(e => {
         return {
           Currency: e,
-          Value: data.rates[e]
+          Value: data.rates[e],
+          convertedAmount: (this.amountToConvert * data.rates[e]).toFixed(5)
         };
       });
       this.hideSelectedDate = false;
@@ -89,6 +90,12 @@ export class ExchangeRateComponent implements OnInit {
   displayConvertedResult() {
      this.selectedExchangeRate.map((e) => {
       e.convertedAmount = (this.amountToConvert * e.rate).toFixed(5) ;
+    })
+  }
+
+  displayConvertedResultForDate() {
+    this.selectedExchangeRateForDate.map((e) => {
+      e.convertedAmount = (this.amountToConvert * e.Value).toFixed(5) ;
     })
   }
 

@@ -19,7 +19,7 @@ export class AccountsService {
     }
 
     deleteAccount(account) {
-        return this.http.get(this.apiConfigUrl + "deleteAccount/" + account.id)
+        return this.http.delete(this.apiConfigUrl + "deleteAccount/" + account.id)
     }
 
     getAllDeactivatedAccounts() {
@@ -27,7 +27,7 @@ export class AccountsService {
     }
 
     activateAccount(account) {
-        return this.http.get(this.apiConfigUrl + "activateAccount/" + account.id)
+        return this.http.put(this.apiConfigUrl + "activateAccount/" + account.id, {})
 
     }
 

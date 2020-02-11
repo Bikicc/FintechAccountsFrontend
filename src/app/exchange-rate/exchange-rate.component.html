@@ -1,8 +1,9 @@
 <div class="mainContainer">
   <p-toast position="bottom-left"></p-toast>
   <div class="accountTableContainer" *ngIf="selectedExchangeRate">
-    <p-table [value]="selectedExchangeRate" [hidden]="hideSelectedCurrency" *ngIf="selectedExchangeRate">
+    <p-table [scrollable]="true" scrollHeight="80vh" [value]="selectedExchangeRate" [hidden]="hideSelectedCurrency" *ngIf="selectedExchangeRate">
       <ng-template pTemplate="caption">
+
         <span style="padding-left: 130px;">
           <p-dropdown [options]="exchangeRates" [(ngModel)]="findSelectedExchangeRate" optionLabel="code"
         (onChange)="onChangeGetExchangeRates()" filter="true"></p-dropdown>
@@ -26,11 +27,8 @@
       <ng-template pTemplate="body" let-selectedExchangeRate>
         <tr>
           <td>{{selectedExchangeRate.exchangeCurrency}}</td>
-          <td>{{selectedExchangeRate.rate}}  
-          </td>
-          <td>
-            {{selectedExchangeRate.convertedAmount}} 
-          </td>
+          <td>{{selectedExchangeRate.rate}} </td>
+          <td>{{selectedExchangeRate.convertedAmount}} </td>
         </tr>
       </ng-template>
     </p-table>
@@ -43,6 +41,9 @@
       <p-dropdown [options]="exchangeRates" [(ngModel)]="findSelectedExchangeRate" optionLabel="code"
         (onChange)="onChangeGetExchangeRates()" filter="true"></p-dropdown>
     </span>
+    <span style="padding: 8px;">
+      <input class="amountToConvert"  type="text"  pKeyFilter="pnum" [(ngModel)]="amountToConvert" (input)="displayConvertedResultForDate()">
+    </span>
     <span style="float: right;">
       <p-calendar [(ngModel)]="selectedDate" format="yy-mm-dd" [showIcon]="true" [maxDate]="maxDate"
         (onSelect)="getRatesForDate()"></p-calendar>
@@ -52,12 +53,14 @@
     <tr>
       <th>Exchange currency</th>
       <th>Rate</th>
+      <th>Exchange</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-selectedExchangeRateForDate>
     <tr>
       <td>{{selectedExchangeRateForDate.Currency}}</td>
       <td>{{selectedExchangeRateForDate.Value}}</td>
+      <td>{{selectedExchangeRateForDate.convertedAmount}} </td>
     </tr>
   </ng-template>
 </p-table>

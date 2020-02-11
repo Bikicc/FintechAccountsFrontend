@@ -20,7 +20,7 @@ export class AutomaticTransactionsService {
     }
 
     deleteAutomaticTransactions(id) {
-        return this.http.get(this.apiConfigUrl + "deleteAutomaticAction/" + id)
+        return this.http.delete(this.apiConfigUrl + "deleteAutomaticAction/" + id)
     }
 
     getDestinationAccount(id) {
