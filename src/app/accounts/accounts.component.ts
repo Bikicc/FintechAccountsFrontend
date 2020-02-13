@@ -34,6 +34,8 @@ export class AccountsComponent implements OnInit {
   exchangeRates: any[];
   selectedCurrencyToTransferTo: any = {};
   displayAddToBalanceDialog: boolean = false;
+  IbanToTransferTo: String;
+  displayTransferByIBAN: boolean = false;
 
 
   constructor(
@@ -368,5 +370,42 @@ export class AccountsComponent implements OnInit {
         console.log('Server-side error occured.');
       }
     }, () => { });
+  }
+
+  addToAccountByIBAN() {
+    let params = {
+      accountFrom: this.selectedAccountTransferFrom,
+      balanceToTransfer: this.balanceToTransfer
+    }
+
+    this.accountService.addToAccountByIBAN(params, this.IbanToTransferTo).subscribe((data) => {
+      this.displayTransferByIBAN = false;
+      this.selectedAccountToTransferTo = null;
+      this.balanceToTransfer = null;
+      this.accountService.getAllAccounts().subscribe(() => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Funds have been transfered successfully!' });
+      });
+    }, (err: HttpErrorResponse) => {
+      if (err.error instanceof Error) {
+        console.log('Client-side error occured.');
+      } else {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'IBAN non ecistent or Funds insufficient!' });
+      }
+    }, () => { });
+  }
+
+  openTransferByIBANDialog() {
+    this.displayTransferByIBAN = true;
+    this.selectedAccountTransferFrom = this.Accounts[0];
+
+  }
+
+  closeTransferByIBANDialog() {
+    this.displayTransferByIBAN = false;
+    this.balanceToTransfer = null;
+    this.selectedAccountTransferFrom = null;
+    this.IbanToTransferTo = null;
+
+
   }
 }

@@ -51,6 +51,9 @@
         <span style="padding-left: 20px;">
           <a class="actionButtons" (click)="openMakeTransferDialog()">Make payment</a>
         </span>
+        <span style="padding-left: 20px;">
+          <a class="actionButtons" (click)="openTransferByIBANDialog()">Transfer funds by IBAN</a>
+        </span>
       </ng-template>
     </p-table>
   </div>
@@ -223,6 +226,36 @@
       class="ui-button-success" [disabled]="!balanceToTransfer"></button>
 
     <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeAddToBalanceToDialog()" label="Cancel"
+      class="ui-button-secondary"></button>
+  </p-footer>
+</p-dialog>
+
+<p-dialog header="Transfer by IBAN" [(visible)]="displayTransferByIBAN" [modal]="true" [closable]="false"
+  [style]="{width: '600px', minWidth: '200px'}" [contentStyle]="{'overflow':'visible'}" [positionTop]="20" [minY]="100"
+  [baseZIndex]="10000">
+  <div>
+    <div class="ui-g ui-fluid form-group">
+      <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 15px;">
+        <label>Amount to add:</label>
+        <input class="balanceInput" type="text" pKeyFilter="pnum" [(ngModel)]="balanceToTransfer">
+      </div>
+      <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
+        <label>Currency to transfer from:</label>
+        <p-dropdown [options]="Accounts" [(ngModel)]="selectedAccountTransferFrom" optionLabel="currency.code" filter="true">
+        </p-dropdown>
+      </div>
+      <div class="ui-g-12 ui-sm-12 ui-md-6 ui-lg-6" style="padding: 10px;">
+        <label>IBAN:</label>
+        <div></div>
+        <input class="balanceInput" type="text"  [(ngModel)]="IbanToTransferTo">
+      </div>
+    </div>
+  </div>
+  <p-footer>
+    <button type="button" pButton icon="fa fa-check" (click)="addToAccountByIBAN()" label="Save"
+      class="ui-button-success" [disabled]="!balanceToTransfer || !IbanToTransferTo"></button>
+
+    <button type="button" pButton icon="fa fa-fw fa-times" (click)="closeTransferByIBANDialog()" label="Cancel"
       class="ui-button-secondary"></button>
   </p-footer>
 </p-dialog>

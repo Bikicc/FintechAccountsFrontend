@@ -7,7 +7,7 @@ export class Interceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = 'Bearer 74171a0e-6996-4481-b81c-8efaeb1449db'
+    const token = 'Bearer da46c207-0b6a-44ec-ab33-e47689d43b71'
 
     const req1 = req.clone({
       setHeaders: {

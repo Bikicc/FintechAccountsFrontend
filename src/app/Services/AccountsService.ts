@@ -54,4 +54,8 @@ export class AccountsService {
     addToBalance(params) {
         return this.http.post(this.apiConfigUrl + "addToAccountBalance" , params) 
     }
+
+    addToAccountByIBAN(params, iban) {
+        return this.http.post(this.apiConfigUrl + "addToAccountByIBAN/" + iban , params) 
+    }
 }
